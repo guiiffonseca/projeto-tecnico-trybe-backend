@@ -1,12 +1,15 @@
 const sinon = require("sinon");
 const { expect } = require("chai");
-const mongoConnection = require("./model/connection");
-const { createTaskModel } = require("./model/taskModel");
+const mongoConnection = require("./src/model/connection");
+const { createTaskModel } = require("./src/model/taskModel");
 const { getConnection } = require("./mockConnection");
-const { createTaskService } = require("./services/taskService")
-const { createTaskController } = require("./controller/taskContoller");
+const { createTaskService } = require("./src/services/taskService")
 
-describe("Testando a rota Adicionar nova tarefa", () => {
+const getAllTasksController = {
+  getAll: () => {}, 
+}
+
+describe("Testando a rota POST nova tarefa", () => {
   let mockConnection;
   const emptyTask = {name: undefined};
   const newTask = {
@@ -47,7 +50,41 @@ describe("Testando a rota Adicionar nova tarefa", () => {
        const response = await  createTaskService(emptyTask)
        expect(response).to.have.a.property("message");
     })
+  });
+});
+
+describe("Testando rota GET tasks", () => {
+  const allTasks = [];
+
+  // before(async () => {
+  //   mockConnection = await getConnection();
+  //   sinon.stub(mongoConnection, "connection").resolves(mockConnection);
+  // });
+
+  // after(async () => {
+  //   await mockConnection.db('model_exemple').collection('tasks').deleteMany();
+  //    mongoConnection.connection.restore();
+  // });
+
+  describe("Não é possível listar todos os produtos", () => {
+    describe("Não foram adicionados produtos a lista", () => {
+      it("é retornado um array", async () => {
+        const response = await getAllTasksController.getAll(allTasks);
+        expect(response).to.be.a("array");
+      });
+
+      it("o array retornado é vazio", async () => {
+        const response = await getAllTasksController.getAll(allTasks);
+        expect(response).to.be.empty;
+      });
+    })
+
 
   });
 
-});
+  describe("É possível listar todos os produtos", () => {
+    it("é retornado o nome de todos os produtos", async () => {
+
+    })
+  })
+})
