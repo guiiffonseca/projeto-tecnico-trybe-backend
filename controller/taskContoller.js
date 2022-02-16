@@ -6,8 +6,8 @@ const createTaskController = async (req, res, next) => {
         const newTask = await createTaskService(name);
         return res.status(200).json(newTask);
     } catch (error) {
-        console.log(error.message);
+        next(error)
     };
 };
 
-module.exports = { createTaskController}
+module.exports = { createTaskController }
