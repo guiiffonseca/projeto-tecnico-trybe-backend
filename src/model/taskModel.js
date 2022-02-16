@@ -6,4 +6,10 @@ const createTaskModel = async (name) => {
     return query;
 };
 
-module.exports={ createTaskModel }
+const getAllTasksModel = async () => {
+    const conn = await connection();
+    const query = conn.collection('tasks').find({}).toArray();
+    return query;
+}
+
+module.exports={ createTaskModel, getAllTasksModel }

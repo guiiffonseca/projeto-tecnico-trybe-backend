@@ -1,4 +1,4 @@
-const { createTaskService } = require("../services/taskService");
+const { createTaskService, getAllTasksService } = require("../services/taskService");
 
 const createTaskController = async (req, res, next) => {
     try {
@@ -10,4 +10,13 @@ const createTaskController = async (req, res, next) => {
     };
 };
 
-module.exports = { createTaskController }
+const getAllTasksController = async ( req, res, next) => {
+    try {
+        const allTasks = await getAllTasksService();
+        return res.status(200).json(allTasks)
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { createTaskController, getAllTasksController }

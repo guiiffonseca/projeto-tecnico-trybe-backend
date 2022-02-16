@@ -1,4 +1,4 @@
-const { createTaskModel } = require("../model/taskModel");
+const { createTaskModel, getAllTasksModel } = require("../model/taskModel");
 const { throwErr } = require("../utils/err")
 
 const BAD_REQUEST = 400;
@@ -11,14 +11,19 @@ const validateName = (name) => {
 
 const createTaskService = async (name) => {
     validateName(name)
-    const {insertedId: id}= await createTaskModel(name);
 
+    const {insertedId: id}= await createTaskModel(name);
     
     return {
         id,
         name,
     }
-
 };
 
-module.exports = { createTaskService };
+const getAllTasksService = async () => {
+    const allTasks = await getAllTasksModel();
+    return allTasks;
+}
+
+
+module.exports = { createTaskService, getAllTasksService };
