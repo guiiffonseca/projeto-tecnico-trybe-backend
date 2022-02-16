@@ -1,9 +1,9 @@
 const { connection } = require('./connection');
 
-const createTaskModel = async ({name}) => {
+const createTaskModel = async (name) => {
     const conn = await connection();
-    const query = conn.collection('tasks').insertOne({name});
-    return query;
+    conn.collection('tasks').insertOne({name});
+    return name;
 };
 
 module.exports={createTaskModel}

@@ -1,6 +1,6 @@
 const { expect } = require('chai');
-const sinon = require('sinon')
-const { createTaskModel } = require('./model/taskModel')
+const sinon = require('sinon');
+const { createTaskModel } = require('./model/taskModel');
 const { connection } = require('./model/connection');
 
 
@@ -21,20 +21,23 @@ describe('Testando a rota Adicionar nova tarefa', () => {
         mockConnection = getConnectionMock()
             .then((conn) => conn.db('model_example'));
 
-        sinon.stub(connection, 'getConnection').resolves(mockConnection)
+        sinon.stub('connection').resolves(mockConnection)
     });
 
     after(() => {
-        connection.getConnection.restore();
+        connection.restore();
     })
 
-    it('É retornado um objeto adicionar uma nova tarefa com sucesso', async () => {
-        const response = await createTaskModel.create(newTask);
-        expect(response).to.be.a('object')
+    describe('Ao adicionar uma terfa com sucesso', () => {
+        it('É retornado um objeto', async () => {
+            const response = await createTaskModel(newTask);
+            expect(response).to.be.a('object')
+        })
+    
+        it('É retornado uma propridade nome', async () => {
+            const response = await createTaskModel(newTask);
+            expect(response).to.have.a.property('name')
+        })
     })
 
-    it('É retornado um id ao adicionar uma nova tarefa ', async () => {
-        const response = await createTaskModel.create(newTask);
-        expect(response).to.have.a.property('id')
-    })
 })
