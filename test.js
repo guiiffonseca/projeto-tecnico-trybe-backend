@@ -83,6 +83,9 @@ describe("Testando rota GET tasks", () => {
   });
 
   describe("É possível listar todos os produtos", () => {
-    it("é retornado o nome de todos os produtos", async () => {});
+    it("é retornado o nome de todos os produtos", async () => {
+      const response = await getAllTasksModel(allTasksEmpty);
+      expect(response).to.be.not.empty;
+    });
   });
 });
