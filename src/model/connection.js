@@ -28,3 +28,7 @@ async function connection() {
 module.exports = {
   connection,
 };
+
+// Função de conexão com o banco retirada do repositório
+// de aulas da Trybe:
+// https://github.com/tryber/sd-013-c-live-lectures/pull/8/commits/b14be5c2060ab40eb30781bcc66d18f594857162
