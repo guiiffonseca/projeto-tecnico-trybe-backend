@@ -38,12 +38,17 @@ describe("Testando a rota POST nova tarefa", () => {
       expect(response).to.be.a("object");
     });
 
+    it("É retornado uma propridade id", async () => {
+      const response = await createTaskService(newTask);
+      expect(response).to.have.a.property("id");
+    });
+
     it("É retornado uma propridade name", async () => {
       const response = await createTaskService(newTask);
       expect(response).to.have.a.property("name");
     });
 
-    it("Não é possível adicionar uma tarefa sem o nome", async () => {
+    it("Não é possível adicionar uma tarefa sem a propriedade name", async () => {
       await createTaskModel(emptyTask);
       const createdTask = mockConnection
         .db("model_exemple")
@@ -56,33 +61,36 @@ describe("Testando a rota POST nova tarefa", () => {
 });
 
 describe("Testando rota GET tasks", () => {
-  const allTasksEmpty = [];
-
-  before(async () => {
-    mockConnection = await getConnection();
-    sinon.stub(mongoConnection, "connection").resolves(mockConnection);
-  });
-
-  after(async () => {
-    await mockConnection.db("model_exemple").collection("tasks").deleteMany();
-    mongoConnection.connection.restore();
-  });
+  let mockConnection;
 
   describe("Não é possível listar todos os produtos", () => {
+    before(async () => {
+      mockConnection = await getConnection();
+      sinon.stub(mongoConnection, "connection").resolves(mockConnection);
+    });
+
+    after(async () => {
+      await mockConnection.db("model_exemple").collection("tasks").deleteMany();
+      mongoConnection.connection.restore();
+    });
+
     describe("Não foram adicionados produtos a lista", () => {
       it("é retornado um array", async () => {
-        const response = await getAllTasksModel(allTasksEmpty);
+        const response = await getAllTasksModel();
         expect(response).to.be.a("array");
       });
 
       it("o array retornado é vazio", async () => {
-        const response = await getAllTasksModel(allTasksEmpty);
+        const response = await getAllTasksModel();
         expect(response).to.be.empty;
       });
     });
   });
 
   describe("É possível listar todos os produtos", () => {
-    it("é retornado o nome de todos os produtos", async () => {});
+    it("é retornado o nome de todos os produtos", async () => {
+      const response = await getAllTasksModel();
+      expect(response).to.be.not.empty;
+    });
   });
 });
